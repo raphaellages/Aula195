@@ -7,11 +7,14 @@ public class Contract {
 	private Integer number;
 	private Date date;
 	private Double totalValue;
+	private List<Installment> carne;
 	
-	public Contract(Integer number, Date date, Double totalValue) {
+	public Contract(Integer number, Date date, Double totalValue, List<Installment> carne) {
 		this.number = number;
 		this.date = date;
 		this.totalValue = totalValue;
+		this.carne = carne;
+		
 	}
 
 	public Integer getNumber() {

@@ -2,13 +2,17 @@ package application;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Contract;
+import model.entities.Installment;
 import model.service.OnlinePaymentService;
+import model.service.PaypalService;
 
 public class Program {
 	public static void main(String[] args) throws ParseException {
@@ -17,27 +21,37 @@ public class Program {
 		OnlinePaymentService ops = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		System.out.println("Enter contract data:");
-		System.out.print("Number: ");
-		int number = sc.nextInt();
-		sc.nextLine();
-		System.out.print("Date (dd/MM/yyyy): ");
-		Date date = sdf.parse(sc.nextLine());
-		System.out.print("Contract value: ");
-		double totalValue = sc.nextDouble();
-		System.out.print("Enter number of installments: ");
-		int installments = sc.nextInt();
-		Contract contract = new Contract(number, date, totalValue);
+		System.out.println("Number: 8028");
+//		System.out.println(8028);
+//		int number = sc.nextInt();
+		int number = 8028;
+//		sc.nextLine();
+		System.out.println("Date (dd/MM/yyyy): 25/06/2018");
+//		System.out.println("25/06/2018");
+		Date date = sdf.parse("25/06/2018");
+		System.out.println("Contract value: 600");
+//		double totalValue = sc.nextDouble();
+		double totalValue = 600;
+		System.out.println("Enter number of installments: 3");
+//		int installments = sc.nextInt();
+		int installments = 3;
+		Contract contract = null;
 		double amount = totalValue / installments;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
+		List<Installment> carne = new ArrayList<>();
+		Date dueDate = null;
 		for (int i=1; i<=installments;i++) {
 			cal.add(Calendar.MONTH, 1);
-			Date dueDate = cal.getTime();
-			//System.out.println(sdf.format(dueDate)); //Verificando se a impressao das datas está correta
-			double currentInstallment = amount + ops.paymentFee(amount)+ops.interest(amount, i);
-			
-			
+			dueDate = cal.getTime();
+			double currentInstallment = amount +  new PaypalService.paymentFee(amount) + new PaypalService.interest(amount, i);
+			System.out.println(sdf.format(dueDate)); //Verificando se a impressao das datas estï¿½ correta
+			System.out.println(String.format("%.2f", currentInstallment));		
+			carne.add(new Installment(dueDate, amount));
+			//ops = new PaypalService();
 		}
+		ContractService cs = new ContractService(new PaypalService());		
+		contract = new Contract(number, dueDate, totalValue, carne);
 		
 		
 	}

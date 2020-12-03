@@ -3,19 +3,19 @@ package model.entities;
 import java.util.Date;
 
 public class Installment {
-	private Date dueData;
+	private Date dueDate;
 	private Double amount;
 	
-	public Installment(Date dueData, Double amount) {
-		this.dueData = dueData;
+	public Installment(Date dueDate, Double amount) {
+		this.dueDate = dueDate;
 		this.amount = amount;
 	}
 	
 	public Installment () {
 	}
 
-	public Date getDueData() {
-		return dueData;
+	public Date getDueDate() {
+		return dueDate;
 	}
 
 	public Double getAmount() {
