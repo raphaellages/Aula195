@@ -22,6 +22,10 @@ public class Installment {
 		return amount;
 	}
 	
+	public String toString() {
+		return	String.format("%.2f", amount);
+	}
+	
 	
 	
 }

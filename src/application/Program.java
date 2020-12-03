@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import model.entities.Contract;
 import model.entities.Installment;
+import model.service.ContractService;
 import model.service.OnlinePaymentService;
 import model.service.PaypalService;
 
@@ -35,24 +36,13 @@ public class Program {
 		System.out.println("Enter number of installments: 3");
 //		int installments = sc.nextInt();
 		int installments = 3;
-		Contract contract = null;
+		Contract contract = new Contract(number, date, totalValue);
 		double amount = totalValue / installments;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		List<Installment> carne = new ArrayList<>();
-		Date dueDate = null;
-		for (int i=1; i<=installments;i++) {
-			cal.add(Calendar.MONTH, 1);
-			dueDate = cal.getTime();
-			double currentInstallment = amount +  new PaypalService.paymentFee(amount) + new PaypalService.interest(amount, i);
-			System.out.println(sdf.format(dueDate)); //Verificando se a impressao das datas est� correta
-			System.out.println(String.format("%.2f", currentInstallment));		
-			carne.add(new Installment(dueDate, amount));
-			//ops = new PaypalService();
-		}
 		ContractService cs = new ContractService(new PaypalService());		
-		contract = new Contract(number, dueDate, totalValue, carne);
-		
+		cs.processContract(contract, installments);;
+			
 		
 	}
 }

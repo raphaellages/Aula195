@@ -9,12 +9,10 @@ public class Contract {
 	private Double totalValue;
 	private List<Installment> carne;
 	
-	public Contract(Integer number, Date date, Double totalValue, List<Installment> carne) {
+	public Contract(Integer number, Date date, Double totalValue) {
 		this.number = number;
 		this.date = date;
-		this.totalValue = totalValue;
-		this.carne = carne;
-		
+		this.totalValue = totalValue;		
 	}
 
 	public Integer getNumber() {
