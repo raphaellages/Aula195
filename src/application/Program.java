@@ -32,17 +32,17 @@ public class Program {
 		Date date = sdf.parse("25/06/2018");
 		System.out.println("Contract value: 600");
 //		double totalValue = sc.nextDouble();
-		double totalValue = 600;
+		double totalValue = 600.00;
 		System.out.println("Enter number of installments: 3");
 //		int installments = sc.nextInt();
 		int installments = 3;
 		Contract contract = new Contract(number, date, totalValue);
-		double amount = totalValue / installments;
+//		double amount = totalValue / installments;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		ContractService cs = new ContractService(new PaypalService());		
 		cs.processContract(contract, installments);;
-			
+
 		
 	}
 }

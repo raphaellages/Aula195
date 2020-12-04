@@ -18,7 +18,7 @@ public class ContractService {
 		this.onlinePaymentService = onlinePaymentService;
 	}
 
-	public void processContract(Contract contract, Integer months) {
+	public void processContract(Contract contract, int months) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(contract.getDate());
 		double amount = contract.getTotalValue();
@@ -26,9 +26,10 @@ public class ContractService {
 			cal.add(Calendar.MONTH, 1);
 			dueDate = cal.getTime();
 			onlinePaymentService = new PaypalService();
-			double currentInstallment = amount/months +  onlinePaymentService.paymentFee(amount) + onlinePaymentService.interest(amount,i);
-			//System.out.println(String.format("%.2f", currentInstallment));		
-			carne.add(new Installment(dueDate, currentInstallment));
+			double basicInstallment = amount/months;
+			double partialInstallment = basicInstallment  +  onlinePaymentService.interest(basicInstallment,i);  
+			double finalInstallment = partialInstallment + onlinePaymentService.paymentFee(partialInstallment);	
+			carne.add(new Installment(dueDate, finalInstallment));			
 		}
 		for (Installment x : carne) {
 			System.out.println(x);
